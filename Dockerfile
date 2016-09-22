@@ -17,8 +17,8 @@ RUN apt-get update && apt-get install -y mongodb-org unzip wget openssh-server
 RUN mkdir -p /data/db
 
 # install serf
-RUN wget http://dl.bintray.com/mitchellh/serf/0.5.0_linux_amd64.zip
-RUN mv 0.5.0_linux_amd64.zip serf.zip
+RUN wget https://releases.hashicorp.com/serf/0.8.0/serf_0.8.0_linux_amd64.zip
+RUN mv serf_0.8.0_linux_amd64.zip serf.zip
 RUN unzip serf.zip
 RUN mv serf /usr/bin/
 RUN rm serf.zip
@@ -35,20 +35,6 @@ ADD /run.sh /usr/bin/run.sh
 RUN mkdir -p /etc/serf/scripts
 ADD /event_handler.sh /etc/serf/scripts/event_handler.sh
 ADD /mongodb_handler.sh /etc/serf/scripts/mongodb_handler.sh
-
-
-# ssh
-RUN mkdir /var/run/sshd
-RUN echo 'root:cluster' | chpasswd
-RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
-
-EXPOSE 22
 
 # Expose port #27017 from the container to the host
 EXPOSE 7946 7373
