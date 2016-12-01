@@ -4,9 +4,9 @@ LOG=/var/log/all
 touch $LOG
 
 if [ $1 = "--mongodb-events" ]; then
-    serf agent -log-level=debug -event-handler=/etc/serf/scripts/mongodb_handler.sh >> $LOG &
+    serf agent -iface=eth0 -log-level=debug -event-handler=/etc/serf/scripts/mongodb_handler.sh >> $LOG &
 else
-    serf agent -log-level=debug -event-handler=/etc/serf/scripts/event_handler.sh >> $LOG &
+    serf agent -iface=eth0 -log-level=debug -event-handler=/etc/serf/scripts/event_handler.sh >> $LOG &
 fi
 
 
