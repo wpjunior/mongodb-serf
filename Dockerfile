@@ -33,6 +33,8 @@ ADD /mongodb_handler.sh /etc/serf/scripts/mongodb_handler.sh
 # Expose port #27017 from the container to the host
 EXPOSE 7946 7373
 EXPOSE 27017
+EXPOSE 27018
+EXPOSE 27019
 EXPOSE 28017
 
 # Set /usr/bin/mongod as the dockerized entry-point application
